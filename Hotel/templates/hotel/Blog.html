@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% block title %}Blog{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+    <div class="contenedor section contenido-centrar"> 
+        <section class="blog">
+            <h3 class="centrar-texto fw-600">Nuestro Blog</h3> 
+            {% for blog in blog %}
+                <article class="entrada-blog">
+                    <div class="imagen">
+                        <img src="{{blog.image.url}}" alt="Blog">
+                    </div>
+                    <div class="texto-entrada">
+                        <a  href="{% url 'blogentrada' blog.title %}" onclick="getEmpId(this)" data-employee-id="{{forloop.counter}}">
+                            <h4>{{blog.title}}</h4>
+                        </a>
+                        <p>Escrito el: <em>{{blog.date| date:'Y-m-d'}}</em> por: <em>{{blog.author}}</em></p>
+                        <p>{{blog.description}}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </div>
+{% endblock %}

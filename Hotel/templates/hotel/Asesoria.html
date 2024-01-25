@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% block title %}Asesoria{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+{% load static %}
+<div class="table mostrar">
+    <table border="1" id="example">
+        {% if messages %}
+        {% for mensaje in messages %}
+        <div class="msg">
+            <div class="alert alert-{{mensaje.tags}} alert-dismissible fade show mar1" role="alert">
+                <p class="centrar-texto pad">{{mensaje}}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <thead>
+            <th class="ocultar">#</th>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th class="ocultar">Mensaje</th>
+            <th class="ocultar">Marcar</th>
+        </thead>
+        <tbody>
+            {% for ases in ases %}
+            <tr>
+                <td class="ocultar">{{ases.id}}</td>
+                <td>{{ases.name}}</td>
+                <td>{{ases.mail}}</td>
+                <td>{{ases.cell}}</td>
+                <td class="ocultar">{{ases.msg}}</td>
+                <td class="ocultar"><a href="{% url 'asesoria' ases.id %}">Realizada</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

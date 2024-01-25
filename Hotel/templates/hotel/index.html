@@ -1,0 +1,112 @@
+{% extends 'core/base.html' %}
+{% block title %}Inicio{% endblock %}
+{% block header %}site-header inicio{% endblock %}
+{% block title-header %}
+<h1> Reservaciones de habitaciones en hotel de lujo</h1>
+{% endblock %}
+{% block content %}
+{% load static %}
+    <section class="contenedor section">
+        <h2 class="fw-600 centrar-texto"> Más sobre nosotros </h2>
+        <div class="iconos-nosotros">
+            {% for about in about %}
+            {% if forloop.counter == 1 %}
+                <div class="iconos">
+                    <img src="{{about.image_security.url}}" alt="Icono
+                        Seguridad">
+                    <h3> Seguridad </h3>
+                    <p>{{about.description_security}}</p>
+                </div>
+                <div class="iconos">
+                    <img src="{{about.image_price.url}}" alt="Icono Precio">
+                    <h3> Precios </h3>
+                    <p>{{about.description_price}}</p>
+                </div>
+                <div class="iconos">
+                    <img src="{{about.image_availability.url}}" alt="Icono Disponibilidad">
+                    <h3> Disponibilidad </h3>
+                    <p>{{about.description_availability}}</p>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <main class="seccion contenedor">
+        <h2 class="fw-300 centrar-texto">Tipos de Habitaciones disponibles</h2>
+        <div class="contenedor-anuncios">      
+            {% for rooms in rooms %}
+            {% if forloop.counter <= 3 %}
+                <div class="anuncio">
+                    <img src="{{rooms.image.url}}" alt="Anuncios">
+                    <div class="contenido-anuncio">
+                        <h3>{{rooms.title}}</h3>
+                        <p>{{rooms.description}}</p>
+                        <p class="precio"> $ {{rooms.price}}.00 la noche</p>
+                        {% if rooms.price == 30 %}<br>{% endif %}
+                        <ul class="iconos-caracteristicas">
+                            <li>
+                                <img src="{% static 'core/img/Icon_Person.png' %}" alt="Icono Persona">
+                            </li>
+                            <li>
+                                <img src="{% static 'core/img/Icon_Cama.png' %}" alt="Icono Cama">
+                            </li>
+                            <li>
+                                <img src="{% static 'core/img/Icon_Aire.png' %}" alt="Icono Aire">
+                            </li>
+                        </ul>
+                        <a href="{% url 'anuncio' rooms.title %}" class="boton boton-amarillo d-block" >Ver Habitacion</a>
+                    </div>
+                </div>  
+            {% endif %}
+            {% endfor %}
+        </div> 
+        <div class="ver-todas">
+            <a href="{% url 'anuncios' %}" class="boton boton-verde">Ver Todas</a>
+        </div>
+    </main>
+
+    <section class="imagen-contactenos">
+        <div class="contenedor contenido-contacto">
+            <h2>Encuentre la mejor habitacion</h2>
+            <p>Llene el formulario de contacto y un asesor se pondra en contacto
+                con usted</p>
+            <a href="{% url 'contacto' %}" class="boton boton-amarillo">Contactenos</a>
+        </div>
+    </section>
+
+    <div class="seccion-inferior contenedor section">
+        <section class="blog">
+            <h3 class="centrar-texto fw-600 section">Nuestro Blog</h3>
+            {% for blog in blog %}
+            {% if forloop.counter <= 2 %}
+                <article class="entrada-blog">
+                    <div class="imagen">
+                        <img src="{{blog.image.url}}" alt="Blog">
+                    </div>
+                    <div class="texto-entrada">
+                        <a href="{% url 'blogentrada' blog.title %}">
+                            <h4>{{blog.title}}</h4>
+                        </a>
+                        <p>Escrito el: <em>{{blog.date| date:'Y-m-d'}}</em> por: <em>{{blog.author}}</em></p>
+                        <p>{{blog.description}}</p>
+                    </div>
+                </article>
+            {% endif %}
+            {% endfor %}
+        </section>
+        <section class="testimoniales">
+            <h3 class="centrar-texto fw-600 section">Testimoniales</h3>
+            <div class="testimonial">
+                {% for testimony in testimony %}
+                {% if forloop.counter == 1 %}
+                    <blockquote>
+                        {{testimony.description}}
+                    </blockquote>
+                    <p>-{{testimony.author}}</p>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+{% endblock %}

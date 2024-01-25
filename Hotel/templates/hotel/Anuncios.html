@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% block title %}Anuncios{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+{% load static %}
+<main class="section contenedor">
+    <h2 class="fw-300 centrar-texto">Tipos de Habitaciones disponibles</h2>
+    <div class="contenedor-anuncios">   
+        {% for room in room %}
+            <div class="anuncio">
+                <div>
+                    <img src="{{room.image.url}}" alt="Anuncios">
+                </div>
+                <div class="contenido-anuncio">
+                    <h3>{{room.title}}</h3>
+                    <p>{{room.description}}</p>
+                    <p class="precio"> $ {{room.price}}.00 la noche</p>
+                    {% if room.price == 30 %}<br>{% endif %}
+                    <ul class="iconos-caracteristicas">
+                        <li>
+                            <img src="{% static 'core/img/Icon_Person.png' %}" alt="Icono Persona">
+                        </li>
+                        <li>
+                            <img src="{% static 'core/img/Icon_Cama.png' %}" alt="Icono Cama">
+                        </li>
+                        <li>
+                            <img src="{% static 'core/img/Icon_Aire.png' %}" alt="Icono Aire">
+                        </li>
+                    </ul>
+                    <div>
+                        <a href="{% url 'anuncio' room.title %}" class="boton boton-amarillo d-block">Ver Habitacion</a>
+                    </div>
+                </div>
+            </div>  
+        {% endfor %}
+    </div> 
+</main>
+<br>
+{% endblock %}

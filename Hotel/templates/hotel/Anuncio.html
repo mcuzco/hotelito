@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+{% block title %}Anuncio{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+{% load static %}
+{% for room in room %}
+<div class="reservar">
+    <h2 class="fw-300 centrar-texto">{{room.title}}</h2>
+    <div class="contenedor-anuncio contenedor">
+        <img src="{{room.image.url}}" alt="Anuncios">
+        <div class="informacion">
+            <div>
+                <div>
+                    <p>{{room.description}}</p>
+                </div>
+                <ul>
+                    <li>
+                        <p>Camas disponibles: {{room.NumRoom}}</p>
+                    </li>
+                    <li>
+                        <p>Capacidad de: {{room.NumPeople}} persona</p>
+                    </li>
+                    <li>
+                        <p> Precio: $ {{room.price}}.00 la noche</p>
+                    </li>
+                </ul>
+                <form action="{% url 'cargo' room.title %}" method="POST"
+                    id="payment-form">
+                    <label for="">Seleccione la fecha de la reservacion</label>
+                    {% csrf_token %}
+                    <input type="date" name="date" required min="{{fecha}}">
+                    {% if messages %}
+                    {% for mensaje in messages %}
+                    <div class="msg">
+                        <div class="alert alert-{{mensaje.tags}} alert-dismissible fade show mar" role="alert">
+                            <p class="centrar-texto pad">{{mensaje}} <br>
+                                {% with name="success" %}
+                                {% if name == mensaje.tags %}
+                                <a href="{% url 'home' %}" class="btn
+                                    btn-success">Acepto</a>
+                                {% endif %}
+                                {% endwith %}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <label for="" class="control-label">Tarjeta de debito o credito</label>
+                    <div id="card-element" class="form-control form-control-lg">
+
+                    </div>
+                    <div id="card-errors" role="alert" class="text-danger">
+
+                    </div>
+                    <input type="text" name="price" value="{{room.price}}" style="display:none">
+                    <input type="text" name="user" value="{{user.username}}" style="display:none">
+                    <input type="text" name="email" value="{{user.email}}" style="display:none">
+                    <input type="text" name="client" value="{{user.first_name}} {{user.last_name}}" style="display:none">
+                    <button type="submit" class="btn btn-lg btn-success boton centrar">Pagar ${{room.price}}.00</button>
+                    {% else %}
+                    <p style="color: red;">Debe logearse para realizar una reservacion!!!
+                        <a style="color: red;" href="{% url 'login' %}">Login</a></p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var stripe = Stripe('pk_test_51LaU1pIOntAHsdbGNKxR0iva1Dzy19D6K7olS0nLzHe3RQPPC7QaYjaAzPu7P5I3cLVFsQquX0gWnB3myhigKvSo00AMc9lgNR');
+    var elements = stripe.elements();
+    var style = {
+        base: {
+            // Add your base input styles here. For example:
+            fontSize: '16px',
+            color: '#32325d',
+        },
+    };
+
+// Create an instance of the card Element.
+    var card = elements.create('card', {style: style});
+
+// Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+            // Inform the customer that there was an error.
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+            }
+        });
+    });  
+    function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+    }
+    
+</script>
+{% endfor %}
+{% endblock %}

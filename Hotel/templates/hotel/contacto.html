@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block title %}Contacto{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+{% load static %}
+    <main class="contenedor section">
+        <h1 class="centrar-texto">Contacto</h1>
+        <img src="{% static 'core/img/Fondo.jpg' %}" alt="">
+        <h2 class="centrar-texto section">Llene el formulario de Contacto</h2>
+        <form class="formulario" method="post" action="">
+            {% if messages %}
+            {% for mensaje in messages %}.
+                <div class="msg">
+                    <div class="alert alert-{{mensaje.tags}} alert-dismissible fade show mar" role="alert">
+                        <p class="centrar-texto pad">{{mensaje}}</p> 
+                    </div>
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <fieldset>
+                <legend>Información Personal</legend>
+                <label for="nombre">Nombre</label>
+                <input type="text" placeholder="Tu Nombre" name="nombre" required>
+
+                <label for="email">E-mail</label>
+                <input type="text" placeholder="Tu Email" name="email" required>
+
+                <label for="telefono">Teléfono</label>
+                <input type="text" placeholder="Tu Teléfono" name="telefono" required>
+
+                <label for="mensaje">Mensaje:</label>
+                <textarea name="mensaje" required></textarea>
+            </fieldset>
+            <input type="submit"  class="boton boton-verde">
+        </form>
+    </main>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% block title %}Blog{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+{% for blog in blog %}
+    <div id="element">
+        <h1 class="centrar-texto fw-600">{{blog.title}}</h1>
+        <img src="{{blog.image.url}}" alt="Imagen blog" class="centradoimg image">
+        <main class="contenedor seccion centrar-texto texto-entrada">
+            <p>Escrito el: <em>{{blog.date| date:'Y-m-d'}}</em> por: <em>{{blog.author}}</em></p>
+            <p>
+                {{blog.description}}
+            </p>
+        </main>
+    </div>
+{% endfor %}
+{% endblock %}

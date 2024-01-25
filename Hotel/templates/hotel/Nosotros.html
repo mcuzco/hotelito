@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% block title %}Nosotros{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+    <main>
+        <div class="contenido-nosotros">
+            {% for about in about %}
+            {% if forloop.counter == 1 %}
+                <div class="imagen">
+                    <img src="{{about.image.url}}" alt="Imagen Sobre Nosotros">
+                </div>
+                <div class="texto-nosotros">
+                    <blockquote>{{about.title}}</blockquote>
+                    <p>{{about.description}}</p>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </main>
+
+    <section class="contenedor seccion">
+        <h1 class="fw-600 centrar-texto">Más Sobre Nosotros</h1>
+        <div class="iconos-nosotros">
+            {% for about in about %}
+            {% if forloop.counter == 1 %}
+                <div class="iconos">
+                    <img src="{{about.image_security.url}}" alt="Icono
+                        Seguridad">
+                    <h3> Seguridad </h3>
+                    <p>{{about.description_security}}</p>
+                </div>
+                <div class="iconos">
+                    <img src="{{about.image_price.url}}" alt="Icono Precio">
+                    <h3> Precios </h3>
+                    <p>{{about.description_price}}</p>
+                </div>
+                <div class="iconos">
+                    <img src="{{about.image_availability.url}}" alt="Icono Disponibilidad">
+                    <h3> Disponibilidad </h3>
+                    <p>{{about.description_availability}}</p>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

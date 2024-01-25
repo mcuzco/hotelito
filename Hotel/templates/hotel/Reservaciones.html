@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% block title %}Reservaciones{% endblock %}
+{% block header %}site-header{% endblock %}
+{% block content %}
+{% load static %}
+<div class="table">
+    <table border="1" id="example">
+        <thead>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Usuario</th>
+            <th>Habitacion</th>
+            <th>Fecha</th>
+        </thead>
+        <tbody>
+            {% for reser in reser %}
+            <tr>
+                <td>{{reser.id}}</td>
+                <td>{{reser.cliente}}</td>
+                <td>{{reser.mail}}</td>
+                <td>{{reser.user}}</td>
+                <td>{{reser.room}}</td>
+                <td>{{reser.date}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="descargar">
+    <a href="{% url 'misreservacionpdf' %}" class="boton boton-verde">Descargar Reporte</a>
+</div>
+{% endblock %}
